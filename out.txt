@@ -1,0 +1,11 @@
+◇ injected env (2) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+models/gemini-2.5-pro Gemini 2.5 Pro
+models/gemini-2.5-pro-preview-tts Gemini 2.5 Pro Preview TTS
+models/gemini-pro-latest Gemini Pro Latest
+models/gemini-3-pro-preview Gemini 3 Pro Preview
+models/gemini-3.1-pro-preview Gemini 3.1 Pro Preview
+models/gemini-3.1-pro-preview-customtools Gemini 3.1 Pro Preview Custom Tools
+models/gemini-3-pro-image-preview Nano Banana Pro
+models/nano-banana-pro-preview Nano Banana Pro
+models/lyria-3-pro-preview Lyria 3 Pro Preview
+models/deep-research-pro-preview-12-2025 Deep Research Pro Preview (Dec-12-2025)
