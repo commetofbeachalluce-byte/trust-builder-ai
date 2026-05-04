@@ -1,15 +1,23 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const port = 3020;
+const port = process.env.PORT || 3020;
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+// フロントエンド（Vite）のビルドファイルを静的配信
+app.use(express.static(path.join(__dirname, 'dist')));
 
 const apiKey = process.env.GEMINI_API_KEY;
 const appPassword = process.env.APP_PASSWORD;
@@ -186,9 +194,12 @@ app.post('/api/gemini', async (req, res) => {
   }
 });
 
-
+// フロントエンドのルーティング用（API以外のすべてのリクエストをindex.htmlに送る）
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 app.listen(port, () => {
-  console.log(`🚀 Latest Stabilized Backend is checking API Key and running on http://localhost:${port}`);
+  console.log(`🚀 Latest Stabilized Backend is checking API Key and running on port ${port}`);
 });
 
