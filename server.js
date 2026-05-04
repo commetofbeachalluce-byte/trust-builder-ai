@@ -195,7 +195,7 @@ app.post('/api/gemini', async (req, res) => {
 });
 
 // フロントエンドのルーティング用（API以外のすべてのリクエストをindex.htmlに送る）
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
