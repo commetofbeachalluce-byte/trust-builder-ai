@@ -81,8 +81,8 @@ app.post('/api/gemini', async (req, res) => {
       return res.status(400).json({ error: '必須パラメータが不足しています。' });
     }
 
-    // ユーザー設定に合わせて最新の Gemini 2.0 Flash を指定（404エラー回避および高速化のため）
-    const modelId = 'gemini-2.0-flash';
+    // ユーザー設定に合わせて最新の Gemini 3.1 Flash を指定（古いバージョンの廃止エラーを回避するため）
+    const modelId = 'gemini-3.1-flash';
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`;
 
     let jsonSchema = {};
