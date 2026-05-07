@@ -81,8 +81,32 @@ app.post('/api/gemini', async (req, res) => {
       return res.status(400).json({ error: '必須パラメータが不足しています。' });
     }
 
-    // ユーザー設定に合わせて最新の Gemini 3.1 Flash を指定（古いバージョンの廃止エラーを回避するため）
-    const modelId = 'gemini-3.1-flash';
+    // ユーザーのAPIキーで現在実際に使えるモデルをGoogleから自動取得する（404エラーを完全に防ぐための自動追従システム）
+    let modelId = 'gemini-1.5-flash'; // デフォルト
+    try {
+      const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+      if (listRes.ok) {
+        const listData = await listRes.json();
+        const validModels = listData.models.filter(m => 
+          m.supportedGenerationMethods && 
+          m.supportedGenerationMethods.includes('generateContent') && 
+          m.name.includes('gemini')
+        );
+        // なるべく gemini-1.5-flash か gemini-1.5-pro を探し、無ければリストの最初のGeminiを使う
+        const targetModel = validModels.find(m => m.name.includes('gemini-1.5-flash')) || 
+                            validModels.find(m => m.name.includes('gemini-1.5-pro')) || 
+                            validModels.find(m => m.name.includes('gemini-pro')) ||
+                            validModels[0];
+        
+        if (targetModel) {
+          modelId = targetModel.name.replace('models/', '');
+          console.log('Auto-selected model:', modelId);
+        }
+      }
+    } catch(e) {
+      console.error("Auto model selection failed:", e);
+    }
+
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`;
 
     let jsonSchema = {};
