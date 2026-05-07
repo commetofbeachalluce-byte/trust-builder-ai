@@ -151,7 +151,11 @@ app.post('/api/gemini', async (req, res) => {
     if (!response.ok) {
       const errData = await response.json();
       console.error('API Error Response:', errData);
-      const statusText = response.status === 503 ? 'AIが現在混雑しています。少し時間を空けてお試しください。' : '通信エラーが発生しました。';
+      
+      // エラーの詳細な原因（APIキー間違いなど）を抽出して画面に返す
+      const detailedError = errData?.error?.message || '不明なエラー';
+      const statusText = response.status === 503 ? 'AIが現在混雑しています。少し時間を空けてお試しください。' : `APIエラー (${response.status}): ${detailedError}`;
+      
       return res.status(response.status).json({ error: statusText });
     }
 
