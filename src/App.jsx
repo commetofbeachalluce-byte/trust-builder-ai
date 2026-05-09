@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import { generateGeminiContent } from './api';
+import html2canvas from 'html2canvas';
 
 const UserIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginRight: '8px', verticalAlign: 'middle', color: '#60a5fa'}}>
@@ -173,6 +174,29 @@ ${followUpProduct.trim() || '（記述なし。文脈から推察してくださ
     }
   };
 
+  const handleCapture = async (elementId, filename) => {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    try {
+      // 一時的にキャプチャ用ボタンを隠す（もし結果内に含める場合）
+      const canvas = await html2canvas(element, {
+        backgroundColor: '#0f172a', // アプリの背景色に合わせる
+        scale: 2, // 高画質化
+        useCORS: true
+      });
+      
+      const image = canvas.toDataURL("image/png");
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = `${filename}.png`;
+      link.click();
+    } catch (error) {
+      console.error("Capture failed:", error);
+      alert("画像の保存に失敗しました。");
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="auth-container">
@@ -306,7 +330,16 @@ ${followUpProduct.trim() || '（記述なし。文脈から推察してくださ
           )}
 
           {profileResult && (
-            <div className="result-area">
+            <div className="result-area" id="profile-result-area">
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem'}}>
+                <h3 style={{margin: 0, color: '#60a5fa'}}>分析結果</h3>
+                <button 
+                  onClick={() => handleCapture('profile-result-area', '商談プロファイリング結果')}
+                  style={{background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem', display: 'flex', alignItems: 'center'}}
+                >
+                  <ImageIcon /> 画像として保存
+                </button>
+              </div>
               <div className="result-section">
                 <div className="result-label">性格タイプ（推論）</div>
                 <div className="result-value accent-text">{profileResult.type || '分析中...'}</div>
@@ -432,7 +465,16 @@ ${followUpProduct.trim() || '（記述なし。文脈から推察してくださ
 
 
           {followUpResult && (
-            <div className="result-area" style={{ borderColor: 'rgba(139, 92, 246, 0.3)' }}>
+            <div className="result-area" id="followup-result-area" style={{ borderColor: 'rgba(139, 92, 246, 0.3)' }}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem'}}>
+                <h3 style={{margin: 0, color: '#c4b5fd'}}>フォローアップ案</h3>
+                <button 
+                  onClick={() => handleCapture('followup-result-area', 'フォローアップ作成結果')}
+                  style={{background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem', display: 'flex', alignItems: 'center'}}
+                >
+                  <ImageIcon /> 画像として保存
+                </button>
+              </div>
               <div className="result-section">
                 <div className="result-label" style={{ color: '#c4b5fd' }}>📡 推奨フォローアップ媒体</div>
                 <div className="result-value accent-text" style={{ color: '#d8b4fe', fontWeight: 'bold', fontSize: '1.1rem' }}>{followUpResult.recommendedMedium}</div>
