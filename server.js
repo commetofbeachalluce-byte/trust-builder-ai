@@ -118,7 +118,7 @@ app.post('/api/gemini', async (req, res) => {
           killerPhrase: { type: "STRING", description: "商談の最初の5分で相手の心を掴む具体的なトークフレーズ" },
           landmines: { type: "ARRAY", items: { type: "STRING" }, description: "絶対にやってはいけないことのリスト" },
           challenges: { type: "ARRAY", items: { type: "STRING" }, description: "想定される相手の課題感や痛み。必ず3つ以上、具体的に。" },
-          scenario: { type: "STRING", description: "理想的な商談の流れ・シナリオ案。起承転結で具体的に。" }
+          scenario: { type: "STRING", description: "未来・問題・原因・解決のフレームワークに沿って、営業がそのまま話せるレベルで詳細に肉付けされた商談のシナリオ。" }
         },
         required: ["type", "killerPhrase", "landmines", "challenges", "scenario"]
       };
