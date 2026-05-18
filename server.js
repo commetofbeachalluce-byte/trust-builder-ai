@@ -133,6 +133,17 @@ app.post('/api/gemini', async (req, res) => {
         },
         required: ["recommendedMedium", "mediumReasoning", "messageDraft", "nextAction"]
       };
+    } else if (schemaType === 'corporate') {
+      jsonSchema = {
+        type: "OBJECT",
+        properties: {
+          corporatePain: { type: "ARRAY", items: { type: "STRING" }, description: "決算書や業界動向から読み取れる、組織全体としての最大の課題（コスト圧迫、人材不足、成長鈍化など）を3つ以上。" },
+          externalRisks: { type: "ARRAY", items: { type: "STRING" }, description: "競合他社の動きや業界の法規制など、今放置すると数年後に企業にとって致命傷になりかねない脅威。" },
+          killerPhrase: { type: "STRING", description: "経営層・決裁者の心を動かす「投資対効果」や「リスク回避」に訴えかける商談冒頭のキラーフレーズ。" },
+          scenario: { type: "STRING", description: "組織全体を巻き込んで契約を勝ち取るためのダイナミックなシナリオ。未来・問題・原因・解決のフレームワークに沿って、営業がそのまま話せるレベルで詳細に肉付けして記述。必ず250字〜300字程度。" }
+        },
+        required: ["corporatePain", "externalRisks", "killerPhrase", "scenario"]
+      };
     }
 
     const promptParts = [];
@@ -204,9 +215,15 @@ app.post('/api/gemini', async (req, res) => {
         const missing = required.filter(key => !parsedData[key] || (Array.isArray(parsedData[key]) && parsedData[key].length === 0));
         
         if (missing.length > 0) {
-          console.warn(`⚠️ 項目不足を検知 (${missing.join(', ')}). 再試行を検討してください。`);
-          // ここで内部リトライを1回試みる（再帰呼び出しの代わりに、一旦エラーを返してフロントにリトライさせるか、あるいはここで再試行）
-          // ユーザー体験を優先し、項目が不完全な場合はエラーとしてフロントのリトライボタンを押させる
+          console.warn(`⚠️ 項目不足を検知 (${missing.join(', ')}).`);
+          throw new Error('AIの回答が不完全です。');
+        }
+      } else if (schemaType === 'corporate') {
+        const required = ['corporatePain', 'externalRisks', 'killerPhrase', 'scenario'];
+        const missing = required.filter(key => !parsedData[key] || (Array.isArray(parsedData[key]) && parsedData[key].length === 0));
+        
+        if (missing.length > 0) {
+          console.warn(`⚠️ 項目不足を検知 (${missing.join(', ')}).`);
           throw new Error('AIの回答が不完全です。');
         }
       }
