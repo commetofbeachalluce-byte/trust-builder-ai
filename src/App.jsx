@@ -451,7 +451,16 @@ ${followUpProduct.trim() || '（記述なし。文脈から推察してくださ
                 <div className="result-section">
                   <div className="result-label">🎬 商談の流れ・シナリオ案</div>
                   <div className="result-value" style={{fontSize: '0.95rem', lineHeight: '1.6', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #60a5fa'}}>
-                    {profileResult.scenario || 'シナリオ案を作成中... 再試行してください。'}
+                    {profileResult.scenario ? (
+                      typeof profileResult.scenario === 'string' ? profileResult.scenario : (
+                        <>
+                          <div style={{marginBottom: '0.8rem'}}><strong>【未来】</strong><br/>{profileResult.scenario.future}</div>
+                          <div style={{marginBottom: '0.8rem'}}><strong>【問題】</strong><br/>{profileResult.scenario.problem}</div>
+                          <div style={{marginBottom: '0.8rem'}}><strong>【原因】</strong><br/>{profileResult.scenario.cause}</div>
+                          <div><strong>【解決】</strong><br/>{profileResult.scenario.solution}</div>
+                        </>
+                      )
+                    ) : 'シナリオ案を作成中... 再試行してください。'}
                   </div>
                 </div>
 
@@ -613,7 +622,16 @@ ${followUpProduct.trim() || '（記述なし。文脈から推察してくださ
                 <div className="result-section">
                   <div className="result-label" style={{ color: '#fcd34d' }}>🎬 組織攻略シナリオ（未来・問題・原因・解決）</div>
                   <div className="result-value" style={{fontSize: '0.95rem', lineHeight: '1.6', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #fbbf24'}}>
-                    {corpResult.scenario || 'シナリオ案を作成中... 再試行してください。'}
+                    {corpResult.scenario ? (
+                      typeof corpResult.scenario === 'string' ? corpResult.scenario : (
+                        <>
+                          <div style={{marginBottom: '0.8rem'}}><strong>【未来】</strong><br/>{corpResult.scenario.future}</div>
+                          <div style={{marginBottom: '0.8rem'}}><strong>【問題】</strong><br/>{corpResult.scenario.problem}</div>
+                          <div style={{marginBottom: '0.8rem'}}><strong>【原因】</strong><br/>{corpResult.scenario.cause}</div>
+                          <div><strong>【解決】</strong><br/>{corpResult.scenario.solution}</div>
+                        </>
+                      )
+                    ) : 'シナリオ案を作成中... 再試行してください。'}
                   </div>
                 </div>
 
