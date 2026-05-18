@@ -27,7 +27,7 @@ async function fetchWithRetry(url, options, maxRetries = 3) {
   for (let i = 0; i <= maxRetries; i++) {
     try {
       const abortController = new AbortController();
-      const id = setTimeout(() => abortController.abort(), 20000); // 20秒でタイムアウト
+      const id = setTimeout(() => abortController.abort(), 60000); // 60秒でタイムアウト（AIの長文生成に対応するため延長）
       
       const response = await fetch(url, { ...options, signal: abortController.signal });
       clearTimeout(id);
