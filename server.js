@@ -88,9 +88,9 @@ app.post('/api/gemini', async (req, res) => {
           m.supportedGenerationMethods.includes('generateContent') && 
           m.name.includes('gemini')
         );
-        // なるべく gemini-1.5-flash か gemini-1.5-pro を探し、無ければリストの最初のGeminiを使う
-        // 高速なレスポンスを保証するため、確実に gemini-1.5-flash を優先する
-        const targetModel = validModels.find(m => m.name === 'models/gemini-1.5-flash') || 
+        // 質の高い分析（DiSCとアマサイの両軸出力など）を確実に行うため、gemini-1.5-pro を優先する
+        const targetModel = validModels.find(m => m.name === 'models/gemini-1.5-pro') || 
+                            validModels.find(m => m.name.includes('gemini-1.5-pro')) || 
                             validModels.find(m => m.name.includes('gemini-1.5-flash')) || 
                             validModels[0];
         
