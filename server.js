@@ -114,17 +114,7 @@ app.post('/api/gemini', async (req, res) => {
           killerPhrase: { type: "STRING", description: "商談の最初の5分で相手の心を掴む具体的なトークフレーズ" },
           landmines: { type: "ARRAY", items: { type: "STRING" }, description: "絶対にやってはいけないことのリスト" },
           challenges: { type: "ARRAY", items: { type: "STRING" }, description: "想定される相手の課題感や痛み。必ず3つ以上、具体的に。" },
-          scenario: { 
-            type: "OBJECT",
-            properties: {
-              future: { type: "STRING", description: "【未来】相手の究極の理想。痛みが解決された先に待っている理想と、それを成し遂げた次に手が届く理想" },
-              problem: { type: "STRING", description: "【問題】理想を叶えるためのボトルネック。放置すると待っている最悪の将来（一度地獄に落とすイメージ）" },
-              cause: { type: "STRING", description: "【原因】問題は相手のせいではないと伝え、第三者（国の制度、法律、業界の悪習、既得権益などの共通の敵）を提示" },
-              solution: { type: "STRING", description: "【解決】その根本原因を解決できる唯一の手段が、今回提案する商品サービスであるという着地" }
-            },
-            required: ["future", "problem", "cause", "solution"],
-            description: "未来・問題・原因・解決のフレームワークに沿って、全体で250〜300文字程度のボリュームで簡潔かつ具体的に記述すること。" 
-          }
+          scenario: { type: "STRING", description: "未来・問題・原因・解決のフレームワークに沿って、営業がそのまま話せるレベルで詳細に肉付けされた商談のシナリオ。全体で250〜300文字程度のボリュームで記述すること。" }
         },
         required: ["type", "killerPhrase", "landmines", "challenges", "scenario"]
       };
@@ -146,17 +136,7 @@ app.post('/api/gemini', async (req, res) => {
           corporatePain: { type: "ARRAY", items: { type: "STRING" }, description: "決算書や業界動向から読み取れる、組織全体としての最大の課題（コスト圧迫、人材不足、成長鈍化など）を3つ以上。" },
           externalRisks: { type: "ARRAY", items: { type: "STRING" }, description: "競合他社の動きや業界の法規制など、今放置すると数年後に企業にとって致命傷になりかねない脅威。" },
           killerPhrase: { type: "STRING", description: "経営層・決裁者の心を動かす「投資対効果」や「リスク回避」に訴えかける商談冒頭のキラーフレーズ。" },
-          scenario: { 
-            type: "OBJECT",
-            properties: {
-              future: { type: "STRING", description: "【未来】究極の理想。痛みが解決された先に待っている理想と、それを成し遂げた次に手が届く理想" },
-              problem: { type: "STRING", description: "【問題】理想を叶えるためのボトルネック。放置すると待っている最悪の将来（一度地獄に落とすイメージ）" },
-              cause: { type: "STRING", description: "【原因】問題は相手のせいではないと伝え、第三者（国の制度、法律、業界の悪習、既得権益などの共通の敵）を提示" },
-              solution: { type: "STRING", description: "【解決】その根本原因を解決できる唯一の手段が、今回提案する商品サービスであるという着地" }
-            },
-            required: ["future", "problem", "cause", "solution"],
-            description: "組織全体を巻き込んで契約を勝ち取るためのダイナミックなシナリオ。全体で250〜300文字程度になるよう、各項目を簡潔かつ具体的に記述すること。" 
-          }
+          scenario: { type: "STRING", description: "組織全体を巻き込んで契約を勝ち取るためのダイナミックなシナリオ。全体で250〜300文字程度になるよう、未来・問題・原因・解決のフレームワークに沿って詳細に肉付けして記述すること。" }
         },
         required: ["corporatePain", "externalRisks", "killerPhrase", "scenario"]
       };
