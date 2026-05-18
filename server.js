@@ -23,11 +23,11 @@ const apiKey = process.env.GEMINI_API_KEY;
 const appPassword = process.env.APP_PASSWORD;
 
 // 指数バックオフとタイムアウト付きのリトライ関数
-async function fetchWithRetry(url, options, maxRetries = 3) {
+async function fetchWithRetry(url, options, maxRetries = 1) {
   for (let i = 0; i <= maxRetries; i++) {
     try {
       const abortController = new AbortController();
-      const id = setTimeout(() => abortController.abort(), 60000); // 60秒でタイムアウト（AIの長文生成に対応するため延長）
+      const id = setTimeout(() => abortController.abort(), 45000); // 45秒でタイムアウト（Renderの100秒制限を回避するため）
       
       const response = await fetch(url, { ...options, signal: abortController.signal });
       clearTimeout(id);
