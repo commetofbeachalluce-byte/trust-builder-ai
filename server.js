@@ -89,9 +89,9 @@ app.post('/api/gemini', async (req, res) => {
           m.name.includes('gemini')
         );
         // なるべく gemini-1.5-flash か gemini-1.5-pro を探し、無ければリストの最初のGeminiを使う
-        const targetModel = validModels.find(m => m.name.includes('gemini-1.5-flash')) || 
-                            validModels.find(m => m.name.includes('gemini-1.5-pro')) || 
-                            validModels.find(m => m.name.includes('gemini-pro')) ||
+        // 高速なレスポンスを保証するため、確実に gemini-1.5-flash を優先する
+        const targetModel = validModels.find(m => m.name === 'models/gemini-1.5-flash') || 
+                            validModels.find(m => m.name.includes('gemini-1.5-flash')) || 
                             validModels[0];
         
         if (targetModel) {
@@ -123,7 +123,7 @@ app.post('/api/gemini', async (req, res) => {
               solution: { type: "STRING", description: "【解決】その根本原因を解決できる唯一の手段が、今回提案する商品サービスであるという着地" }
             },
             required: ["future", "problem", "cause", "solution"],
-            description: "未来・問題・原因・解決のフレームワークに沿って、営業がそのまま話せるレベルで詳細に肉付けされた商談のシナリオ。各項目しっかりとボリュームを出して記述すること。" 
+            description: "未来・問題・原因・解決のフレームワークに沿って、全体で250〜300文字程度のボリュームで簡潔かつ具体的に記述すること。" 
           }
         },
         required: ["type", "killerPhrase", "landmines", "challenges", "scenario"]
@@ -155,7 +155,7 @@ app.post('/api/gemini', async (req, res) => {
               solution: { type: "STRING", description: "【解決】その根本原因を解決できる唯一の手段が、今回提案する商品サービスであるという着地" }
             },
             required: ["future", "problem", "cause", "solution"],
-            description: "組織全体を巻き込んで契約を勝ち取るためのダイナミックなシナリオ。未来・問題・原因・解決のフレームワークに沿って、営業がそのまま話せるレベルで詳細に肉付けして記述すること。" 
+            description: "組織全体を巻き込んで契約を勝ち取るためのダイナミックなシナリオ。全体で250〜300文字程度になるよう、各項目を簡潔かつ具体的に記述すること。" 
           }
         },
         required: ["corporatePain", "externalRisks", "killerPhrase", "scenario"]
