@@ -110,11 +110,11 @@ app.post('/api/gemini', async (req, res) => {
       jsonSchema = {
         type: "OBJECT",
         properties: {
-          type: { type: "STRING", description: "DiSC理論とアマサイ（アクティブ・マネージ・サービス・イノベーション）に基づく相手の性格タイプ（短く記載）" },
+          type: { type: "STRING", description: "【DiSC理論：〇〇型】【アマサイ：〇〇型】のように、必ず両方の理論に基づく相手の性格タイプを明記すること。" },
           killerPhrase: { type: "STRING", description: "商談の最初の5分で相手の心を掴む具体的なトークフレーズ" },
           landmines: { type: "ARRAY", items: { type: "STRING" }, description: "絶対にやってはいけないことのリスト" },
           challenges: { type: "ARRAY", items: { type: "STRING" }, description: "想定される相手の課題感や痛み。必ず3つ以上、具体的に。" },
-          scenario: { type: "STRING", description: "未来・問題・原因・解決のフレームワークに沿って、営業がそのまま話せるレベルで詳細に肉付けされた商談のシナリオ。全体で250〜300文字程度のボリュームで記述すること。" }
+          scenario: { type: "STRING", description: "未来・問題・原因・解決のフレームワークを【1周目（浅い課題）】→【2周目（本質的な課題）】と連続して2回（2サイクル）回す構成で、営業がそのまま話せるレベルで詳細に肉付けされた商談のシナリオ。全体で400〜600文字程度のボリュームで記述すること。" }
         },
         required: ["type", "killerPhrase", "landmines", "challenges", "scenario"]
       };
@@ -133,10 +133,10 @@ app.post('/api/gemini', async (req, res) => {
       jsonSchema = {
         type: "OBJECT",
         properties: {
-          corporatePain: { type: "ARRAY", items: { type: "STRING" }, description: "決算書や業界動向から読み取れる、組織全体としての最大の課題（コスト圧迫、人材不足、成長鈍化など）を3つ以上。" },
+          corporatePain: { type: "ARRAY", items: { type: "STRING" }, description: "一般的な業界トレンドではなく、提供された企業HPや事業内容から直接的に推測できる、その企業特有の生々しくダイレクトな最大の課題（痛み）を3つ以上。専門用語を避け、経営層に直感的に刺さるわかりやすい言葉を使うこと。" },
           externalRisks: { type: "ARRAY", items: { type: "STRING" }, description: "競合他社の動きや業界の法規制など、今放置すると数年後に企業にとって致命傷になりかねない脅威。" },
           killerPhrase: { type: "STRING", description: "経営層・決裁者の心を動かす「投資対効果」や「リスク回避」に訴えかける商談冒頭のキラーフレーズ。" },
-          scenario: { type: "STRING", description: "組織全体を巻き込んで契約を勝ち取るためのダイナミックなシナリオ。全体で250〜300文字程度になるよう、未来・問題・原因・解決のフレームワークに沿って詳細に肉付けして記述すること。" }
+          scenario: { type: "STRING", description: "組織全体を巻き込んで契約を勝ち取るためのダイナミックなシナリオ。全体で400〜500文字程度になるよう、未来・問題・原因・解決のフレームワークに沿って、一般的な言葉ではなく直感的でわかりやすい生きた言葉で、より深く詳細に肉付けして記述すること。" }
         },
         required: ["corporatePain", "externalRisks", "killerPhrase", "scenario"]
       };
